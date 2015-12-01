@@ -47,6 +47,7 @@ final int BACKGROUND_SPEED = 2;
 final int ENEMY_SPEED = 5;
 final int FIGHTER_SPEED = 5;
 final int BULLET_SPEED = 5;
+final int BULLET_TRACE_SPEED = 1;
 
 // level_enemy_num
 final int ENEMY_NUM_1 = 5;
@@ -177,7 +178,7 @@ void draw()
     drawFighter();
     drawEnemy();
     drawBullet();
-    
+
     collisionDetect();
     
     drawScore();
@@ -299,6 +300,19 @@ void drawBullet(){
     // out of screen, disable bullet 
     if (arrayBulletX[i] < -BULLET_WIDTH)
       arrayBulletEnable[i] = false;
+      
+    int enemyNo = closestEnemy(arrayBulletX[i], arrayBulletY[i]);
+    if (enemyNo > -1) {
+      // find closest enemy
+      if (enemyY[enemyNo] < arrayBulletY[i]) {
+        // above bullet
+        arrayBulletY[i]-=BULLET_TRACE_SPEED;
+      } else {
+        // below bullet
+        arrayBulletY[i]+=BULLET_TRACE_SPEED;
+      }
+        
+    }
   }
 }
 
@@ -314,7 +328,7 @@ void drawEnemy(){
     if (enemyX[i] != -1 || enemyY[i] != -1) {
       image(enemy, enemyX[i], enemyY[i]);
       enemyX[i]+=5;
-      if (enemyX[i] <= 640)
+      if (enemyX[i] <= width + ENEMY_SIZE) // + SIZE for longer gap between types
         isAllOutScreen = false;
     }
   }
@@ -515,6 +529,33 @@ void collisionDetect() {
     treasureY = floor(random(height-TREASURE_SIZE));
   }
     
+}
+
+// return enemyNo, if no enemy, return -1 
+int closestEnemy(int x, int y){
+  int enemyNo = -1;
+  int enemyDistance = 999999;
+  for (int index=0; index < enemyCount; index++) {
+    if (enemyX[index] == -1 && enemyY[index] == -1) {
+      continue;
+    }
+
+    // enemy not on the left side of bullet
+    if (enemyX[index] >= x) {
+      continue;
+    }
+    
+    int distance = ((x- enemyX[index])*abs(y-enemyY[index]))/2;
+    
+    // find nearest enemy
+    if (distance < enemyDistance)
+    {
+      enemyDistance = distance;
+      enemyNo = index;
+    }
+  }
+
+  return enemyNo;
 }
 
 void keyPressed() {
