@@ -211,8 +211,9 @@ void drawGameLose() {
     if (mousePressed) {
       gameState = GAME_RUN;
       
-      // reset hpPoint
+      // reset hpPoint & score
       hpPoint = HP_POINT_DEFAULT;
+      score = 0;
       // reset fighter
       fighterX = DEFAULT_FIGHTER_X;
       fighterY = DEFAULT_FIGHTER_Y;
