@@ -29,6 +29,8 @@ final int BUTTON_WIDTH = 255;
 final int BUTTON_HEIGHT = 123;
 final int DEFAULT_FIGHTER_X = 500;
 final int DEFAULT_FIGHTER_Y = 240;
+final int SCORE_X = 10;
+final int SCORE_Y = 470;
 
 // image size
 final int FIGHTER_SIZE = 50;
@@ -341,7 +343,7 @@ void drawBoom() {
 void drawScore(){
   fill(255);
   textFont(scoreFont);
-  text("Score: " + score, 10, 450);
+  text("Score: " + score, SCORE_X, SCORE_Y);
 }
 
 // 0 - straight, 1-slope, 2-diamond
