@@ -71,6 +71,7 @@ boolean changeEnemyTeamType = false;
 int slantDirection;
 int currentMaxEnemyNum = ENEMY_NUM_1;
 // positions
+int bgR;
 int bg1RX;
 int bg2RX;
 int fighterX;
@@ -108,8 +109,9 @@ PImage[] boom = new PImage[5];
 
 void setup () {
 	size(640, 480) ;
-  bg1RX = width; // bg1 right side position
-  bg2RX = width * 2; // bg2 right side position
+  bgR = 0;
+  bg1RX = 0; // bg1 left side
+  bg2RX = -width; // bg2 left side
 
   // load images
   enemy = loadImage("img/enemy.png");
@@ -213,7 +215,7 @@ void drawGameLose() {
       
       // reset hpPoint & score
       hpPoint = HP_POINT_DEFAULT;
-      score = 0;
+	  score = 0;
       // reset fighter
       fighterX = DEFAULT_FIGHTER_X;
       fighterY = DEFAULT_FIGHTER_Y;
@@ -239,14 +241,14 @@ void drawGameLose() {
 }
 
 void drawBackground() {
-  bg1RX = (bg1RX + BACKGROUND_SPEED);
-  if (bg1RX >= width * 2)
-    bg1RX = 0;
-  bg2RX = (bg2RX + BACKGROUND_SPEED);
-  if (bg2RX >= width * 2)
-    bg2RX = 0;
-  image(bg1, bg1RX-width-1, 0);
-  image(bg2, bg2RX-width-1, 0);
+  image(bg1, bg1RX, 0);
+  image(bg2, bg2RX, 0);
+  bg1RX += BACKGROUND_SPEED;
+  if (bg1RX >= width)
+    bg1RX = -width;
+  bg2RX += BACKGROUND_SPEED;
+  if (bg2RX >= width)
+    bg2RX = -width;
 }
 
 void drawTreasure() {
@@ -439,7 +441,7 @@ void collisionDetect() {
     }
 
     // fighter hit enemy detect
-    hit = isHit(enemyX[enemyNo], enemyY[enemyNo], ENEMY_SIZE, ENEMY_SIZE, //<>//
+    hit = isHit(enemyX[enemyNo], enemyY[enemyNo], ENEMY_SIZE, ENEMY_SIZE,
           fighterX, fighterY, FIGHTER_SIZE, FIGHTER_SIZE);
     if (hit == true) {
       detectSource = SOURCE_FIGHTER;
