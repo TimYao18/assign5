@@ -11,7 +11,7 @@ final int HIT_NONE = 0;
 final int HIT_ENEMY = 1;
 final int HIT_TREASURE = 2;
 
-final int HP_POINT_DEFAULT = 50;
+final int HP_POINT_DEFAULT = 20;
 final int HP_POINT_MAX = 100;
 final int HP_POINT_HIT = 20;
 final int HP_POINT_ENERGY = 10;
